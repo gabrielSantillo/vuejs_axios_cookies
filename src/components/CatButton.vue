@@ -1,6 +1,6 @@
 <template>
   <div>
-    <button @click="random_img_cat">Cat Button</button>
+    <button @click="setting_cat_cookie">Cat Button</button>
   </div>
 </template>
 
@@ -9,7 +9,7 @@ import axios from "axios";
 import cookies from "vue-cookies";
 
 export default {
-  mounted() {
+   mounted() {
     let is_cat = cookies.get(`selection`);
     if (is_cat === `cat`) {
       axios
@@ -19,7 +19,6 @@ export default {
         .then((response) => {
           this.cat_img_url = response[`data`][`file`];
           this.$root.$emit(`new_display`, this.cat_img_url);
-          cookies.set(`selection`, `cat`);
         })
         .catch((error) => {
           error;
@@ -27,6 +26,22 @@ export default {
     }
   },
 
+  methods: {
+    setting_cat_cookie() {
+      cookies.set(`selection`, `cat`);
+      axios
+        .request({
+          url: `https://aws.random.cat/meow`,
+        })
+        .then((response) => {
+          this.cat_img_url = response[`data`][`file`];
+          this.$root.$emit(`new_display`, this.cat_img_url);
+        })
+        .catch((error) => {
+          error;
+        });
+    },
+  },
   data() {
     return {
       cat_img_url: undefined,
