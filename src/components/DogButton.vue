@@ -1,6 +1,6 @@
 <template>
   <div>
-    <button @click="setting_dog_cookie">Dog Button</button>
+    <button @click="handle_click">Dog Button</button>
   </div>
 </template>
 
@@ -12,23 +12,12 @@ export default {
   mounted() {
     let is_dog = cookies.get(`selection`);
     if (is_dog === `dog`) {
-      axios
-        .request({
-          url: `https://dog.ceo/api/breeds/image/random`,
-        })
-        .then((response) => {
-          this.dog_img_url = response[`data`][`message`];
-          this.$root.$emit(`new_display`, this.dog_img_url);
-        })
-        .catch((error) => {
-          error;
-        });
+      this.handle_click();
     }
   },
 
   methods: {
-    setting_dog_cookie() {
-      cookies.set(`selection`, `dog`);
+    handle_click() {
       axios
         .request({
           url: `https://dog.ceo/api/breeds/image/random`,
@@ -36,6 +25,7 @@ export default {
         .then((response) => {
           this.dog_img_url = response[`data`][`message`];
           this.$root.$emit(`new_display`, this.dog_img_url);
+          cookies.set(`selection`, `dog`);
         })
         .catch((error) => {
           error;

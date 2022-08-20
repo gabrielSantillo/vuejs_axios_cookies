@@ -1,5 +1,5 @@
 <template>
-    <div v-if="img_received === true">
+    <div v-if="img_url !== undefined">
         <img :src="img_url" alt="">
     </div>
 </template>
@@ -9,13 +9,11 @@
         data() {
             return {
                 img_url: undefined,
-                img_received: false
             }
         },
         methods: {
             handle_img_url(message) {
                 this.img_url = message;
-                this.img_received = true
             }
         },
         mounted () {
@@ -25,5 +23,8 @@
 </script>
 
 <style scoped>
-
+img {
+    max-width: 300px;
+    max-height: 300px;
+}
 </style>

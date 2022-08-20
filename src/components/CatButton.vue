@@ -1,6 +1,6 @@
 <template>
   <div>
-    <button @click="setting_cat_cookie">Cat Button</button>
+    <button @click="handle_click">Cat Button</button>
   </div>
 </template>
 
@@ -12,30 +12,19 @@ export default {
    mounted() {
     let is_cat = cookies.get(`selection`);
     if (is_cat === `cat`) {
-      axios
-        .request({
-          url: `https://aws.random.cat/meow`,
-        })
-        .then((response) => {
-          this.cat_img_url = response[`data`][`file`];
-          this.$root.$emit(`new_display`, this.cat_img_url);
-        })
-        .catch((error) => {
-          error;
-        });
+      this.handle_click();
     }
   },
 
   methods: {
-    setting_cat_cookie() {
-      cookies.set(`selection`, `cat`);
+    handle_click() {
       axios
         .request({
           url: `https://aws.random.cat/meow`,
         })
         .then((response) => {
           this.cat_img_url = response[`data`][`file`];
-          this.$root.$emit(`new_display`, this.cat_img_url);
+          this.$root.$emit(`new_display`, this.cat_img_url);cookies.set(`selection`, `cat`);
         })
         .catch((error) => {
           error;
